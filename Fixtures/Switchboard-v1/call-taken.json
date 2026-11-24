@@ -1,0 +1,5 @@
+{
+  "type": "call.taken",
+  "event_id": "evt_fixture_taken",
+  "call_id": "call_fixture_incoming"
+}

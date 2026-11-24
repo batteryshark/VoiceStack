@@ -1,0 +1,5 @@
+#!/bin/sh
+# Switchboard server and administration. Bun: $BUN, else PATH.
+here=$(dirname "$(readlink -f "$0")")
+BUN=${BUN:-bun}
+exec "$BUN" "$here/../src/server/main.ts" "$@"

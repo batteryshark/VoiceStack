@@ -1,0 +1,6 @@
+{
+  "type": "reply.done",
+  "response_id": "resp_fixture_1",
+  "text": "Use the narrower boundary first.",
+  "status": "completed"
+}

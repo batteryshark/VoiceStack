@@ -1,0 +1,6 @@
+{
+  "model": "local-breeze",
+  "voice": "local-default",
+  "input": "Use the narrower boundary first.",
+  "response_format": "pcm"
+}

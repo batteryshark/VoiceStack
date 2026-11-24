@@ -1,0 +1,74 @@
+import { afterEach, expect, test } from 'bun:test';
+import { harness, uuid, type Harness } from './harness.ts';
+import { verifyCredential } from '../src/server/backend.ts';
+import { Profiles } from '../src/server/profiles.ts';
+import { CloudSpeech, type CloudConnection } from '../src/server/cloud-speech.ts';
+let h: Harness;
+afterEach(() => h?.stop());
+const claims = (b: any) => JSON.parse(Buffer.from(b.credential.split('.')[1], 'base64url').toString());
+const local = (id: string, voice = 'ash') => ({ ...h.switchboard.profiles.get(id), provider: 'mode-a', voice, health_url: 'https://fixture.invalid/health' });
+async function outgoing() {
+  const d = await h.pairedDevice('macos', 'Mac');
+  const r = await d.request('POST', '/calls', { operation_id: uuid(), direction: 'outgoing', target_id: 'target_main' });
+  expect(r.status).toBe(200); return { d, ...r.body };
+}
+test('edits and default changes affect new calls only; renewal and replay retain voice, endpoint and target', async () => {
+  h = await harness(); const p = h.switchboard.profiles;
+  p.save(local('mac-local')); const first = await outgoing();
+  const edit = local('mac-local', 'another'); edit.speech_address = 'https://new.fixture.invalid/speech'; p.save(edit);
+  p.select('second'); const second = await outgoing();
+  expect(second.backend.speech_address).toContain('voice-second');
+  const renew = await first.d.request('POST', `/calls/${first.call.id}/backend-handoff`, { operation_id: uuid() });
+  expect(renew.status).toBe(200); expect(renew.body.backend.speech_address).toBe(first.backend.speech_address);
+  expect(claims(renew.body.backend).voice).toBe('ash');
+  expect(p.forCall(h.switchboard.store.call(first.call.id)!).speech_address).toBe(first.backend.speech_address);
+  const freshReader = new Profiles(h.switchboard.config, h.switchboard.store, h.switchboard.signer);
+  expect(freshReader.forCall(h.switchboard.store.call(first.call.id)!).voice).toBe('ash');
+  p.remove('mac-local'); expect(p.forCall(h.switchboard.store.call(first.call.id)!).voice).toBe('ash');
+});
+test('an incoming ringing call retains its original backend when accepted after a default change', async () => {
+  h = await harness(); const d = await h.pairedDevice('ios', 'Phone');
+  const token = await d.request('POST', '/caller-tokens', { operation_id: uuid(), name: 'agent' });
+  const ring = await fetch(h.appBase + '/calls', { method: 'POST', headers: { authorization: 'Bearer ' + token.body.secret, 'content-type': 'application/json' }, body: JSON.stringify({ operation_id: uuid(), direction: 'incoming', subject: 'Decision' }) }).then(r => r.json());
+  h.switchboard.profiles.select('second');
+  const r = await d.request('POST', `/calls/${ring.call.id}/accept`, { operation_id: uuid() });
+  expect(r.status).toBe(200); expect(r.body.backend.speech_address).toContain('voice-mac');
+});
+test('settings require authentication; API keys stay private and credential rotation preserves active calls', async () => {
+  h = await harness(); const base = h.switchboard.url + '/settings/api/';
+  expect((await fetch(base + 'profiles')).status).toBe(401);
+  h.switchboard.store.setSetting('admin_password_hash', await Bun.password.hash('fixture-password'));
+  const login = await fetch(base + 'login', { method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify({ password: 'fixture-password' }) }).then(r => r.json());
+  const headers = { authorization: 'Bearer ' + login.token, 'content-type': 'application/json' };
+  const cloud = { id: 'cloud', provider: 'openai', voice: 'coral', api_key: 'fixture-key-first' };
+  const saved = await fetch(base + 'profiles', { method: 'PUT', headers, body: JSON.stringify(cloud) }).then(r => r.json());
+  expect(saved.has_key).toBe(true); expect(saved.key_file).toBeUndefined(); expect(JSON.stringify(saved)).not.toContain('fixture-key');
+  h.switchboard.profiles.select('cloud'); const first = await outgoing();
+  expect(first.backend.speech_address).toContain('/voice/' + first.call.id + '/speech');
+  h.switchboard.profiles.save({ ...cloud, api_key: 'fixture-key-second' });
+  expect(h.switchboard.profiles.key(h.switchboard.profiles.forCall(h.switchboard.store.call(first.call.id)!))).toBe('fixture-key-first');
+  expect(h.switchboard.profiles.key(h.switchboard.profiles.active())).toBe('fixture-key-second');
+  const denied = await fetch(base + 'default', { method: 'PUT', headers: { ...headers, origin: 'https://unrelated.invalid' }, body: JSON.stringify({ id: 'second' }) }); expect(denied.status).toBe(403);
+  expect((await fetch(h.switchboard.url + '/settings')).status).toBe(200);
+});
+test('cloud speech maps the pinned model/voice, rejects another call credential and ends its websocket', async () => {
+  h = await harness(); const p = h.switchboard.profiles;
+  p.save({ id: 'cloud', provider: 'openai', voice: 'coral', api_key: 'fixture-key', speech_model: 'fixture-tts', transcription_model: 'fixture-stt' }); p.select('cloud');
+  const first = await outgoing(); const second = await outgoing();
+  let sent: any; let auth = '';
+  const bridge = new CloudSpeech(p, (async (_url: any, init: any) => { sent = JSON.parse(init.body); auth = init.headers.authorization; return new Response(new Uint8Array([0, 0, 1, 0])); }) as typeof fetch);
+  const req = new Request('http://fixture/speech', { method: 'POST', headers: { authorization: 'Bearer ' + first.backend.credential }, body: JSON.stringify({ model: 'local-breeze', voice: 'local-default', input: 'Hello', response_format: 'pcm' }) });
+  expect(() => bridge.authorize(req, second.call.id)).toThrow();
+  const backend = bridge.authorize(req, first.call.id);
+  const audio = await bridge.speech(req, backend); expect((await audio.arrayBuffer()).byteLength).toBe(4);
+  expect(sent).toEqual({ model: 'fixture-tts', voice: 'coral', input: 'Hello', response_format: 'pcm' }); expect(auth).toBe('Bearer fixture-key');
+  const upstream: any = { readyState: WebSocket.OPEN, send: (s: string) => { sent = JSON.parse(s); }, close: () => {} };
+  let closed = false; let received: any;
+  const wsBridge = new CloudSpeech(p, fetch, () => upstream);
+  const c: CloudConnection = { callId: first.call.id, backend, pending: [], bytes: 0 };
+  wsBridge.open(c, { send: s => { received = JSON.parse(s); }, close: () => { closed = true; } }); upstream.onopen();
+  wsBridge.message(c, JSON.stringify({ type: 'session.update', session: { tools: ['not forwarded'] } }));
+  expect(sent.session.audio.input.transcription.model).toBe('fixture-stt'); expect(sent.session.tools).toBeUndefined();
+  upstream.onmessage({ data: JSON.stringify({ type: 'conversation.item.input_audio_transcription.completed', transcript: 'Hello' }) });
+  expect(received.transcript).toBe('Hello'); wsBridge.end(first.call.id); expect(closed).toBe(true);
+});

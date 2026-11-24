@@ -1,0 +1,6 @@
+{
+  "type": "call.ready",
+  "event_id": "evt_text_ready",
+  "call_id": "call_fixture_incoming",
+  "target_binding": "binding_fixture_2"
+}

@@ -1,0 +1,12 @@
+{
+  "aps": {},
+  "voicestack": {
+    "profile": "voicestack-app/1",
+    "event": "call.incoming",
+    "event_id": "evt_fixture_incoming",
+    "call_id": "call_fixture_incoming",
+    "caller_name": "Agent",
+    "subject": "Need to settle the release boundary",
+    "ring_expires_at": "2026-10-29T12:31:00Z"
+  }
+}

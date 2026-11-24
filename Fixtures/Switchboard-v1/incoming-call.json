@@ -1,0 +1,12 @@
+{
+  "type": "call.incoming",
+  "event_id": "evt_fixture_incoming",
+  "call": {
+    "id": "call_fixture_incoming",
+    "direction": "incoming",
+    "state": "ringing",
+    "caller_name": "Agent",
+    "subject": "Need to settle the release boundary",
+    "ring_expires_at": "2026-10-29T12:31:00Z"
+  }
+}

@@ -1,0 +1,6 @@
+{
+  "operation_id": "44444444-4444-4444-8444-444444444444",
+  "environment": "sandbox",
+  "bundle_id": "fixture.voicestack",
+  "voip_token": "fixture-apns-device-token"
+}

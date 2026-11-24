@@ -1,0 +1,10 @@
+{
+  "switchboard": "http://127.0.0.1:47860",
+  "caller_token": { "file": "/etc/switchboard/agent-caller-token" },
+  "connector_credential": { "file": "/etc/switchboard/connector-credential" },
+  "lane": {
+    "kind": "native",
+    "instance": "/etc/switchboard/session-server.json",
+    "targets": { "target_main": "default" }
+  }
+}

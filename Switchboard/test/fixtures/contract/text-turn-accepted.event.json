@@ -1,0 +1,9 @@
+{
+  "type": "turn.accepted",
+  "operation_id": "dddddddd-dddd-4ddd-8ddd-dddddddddddd",
+  "response_id": "resp_fixture_1",
+  "requested_delivery": "steer",
+  "effective_delivery": "queue",
+  "fallback_reason": "steer_not_supported",
+  "target_binding": "binding_fixture_2"
+}

@@ -1,0 +1,6 @@
+{
+  "type": "call.ended",
+  "event_id": "evt_fixture_ended",
+  "call_id": "call_fixture_incoming",
+  "reason": "user"
+}

@@ -1,0 +1,24 @@
+{
+  "listen": { "host": "127.0.0.1", "port": 47860 },
+  "public_base": "https://switchboard.example.ts.net:9450/voicestack/v1",
+  "database": "/var/lib/switchboard/switchboard.sqlite",
+  "backend_signing_key": "/var/lib/switchboard/backend-signing-key.pem",
+  "ring_seconds": 60,
+  "handout_seconds": 60,
+  "targets": [
+    { "id": "target_main", "label": "Agent", "kind": "main_conversation", "is_default": true }
+  ],
+  "backends": [
+    {
+      "id": "mac-mode-a",
+      "mode": "A",
+      "profile": "voicestack-mode-a-speech/1",
+      "transcription_address": "wss://mac.example.ts.net:8450/v1/realtime?intent=transcription",
+      "speech_address": "https://mac.example.ts.net:8450/v1/audio/speech",
+      "health_url": "https://mac.example.ts.net:8450/health",
+      "audience": "voicestack-mac-mode-a"
+    }
+  ],
+  "active_backend": "mac-mode-a",
+  "push": { "kind": "off" }
+}

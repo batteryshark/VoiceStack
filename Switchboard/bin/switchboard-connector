@@ -1,0 +1,5 @@
+#!/bin/sh
+# Switchboard connector: `call` (the agent's call tool) and `relay`. Bun: $BUN, else PATH.
+here=$(dirname "$(readlink -f "$0")")
+BUN=${BUN:-bun}
+exec "$BUN" "$here/../src/connector/cli.ts" "$@"

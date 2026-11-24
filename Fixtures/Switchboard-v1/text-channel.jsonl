@@ -1,0 +1,6 @@
+{"type": "call.ready", "event_id": "evt_text_ready", "call_id": "call_fixture_incoming", "target_binding": "binding_fixture_2"}
+{"type": "turn.submit", "operation_id": "dddddddd-dddd-4ddd-8ddd-dddddddddddd", "text": "Use the narrower release boundary.", "delivery": "steer"}
+{"type": "turn.accepted", "operation_id": "dddddddd-dddd-4ddd-8ddd-dddddddddddd", "response_id": "resp_fixture_1", "requested_delivery": "steer", "effective_delivery": "queue", "fallback_reason": "steer_not_supported", "target_binding": "binding_fixture_2"}
+{"type": "reply.delta", "response_id": "resp_fixture_1", "sequence": 1, "delta": "Use the narrower "}
+{"type": "reply.delta", "response_id": "resp_fixture_1", "sequence": 2, "delta": "boundary first."}
+{"type": "reply.done", "response_id": "resp_fixture_1", "text": "Use the narrower boundary first.", "status": "completed"}

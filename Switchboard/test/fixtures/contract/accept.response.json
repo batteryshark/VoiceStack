@@ -1,0 +1,20 @@
+{
+  "call": {
+    "id": "call_fixture_incoming",
+    "direction": "incoming",
+    "state": "connecting",
+    "owner_device_id": "dev_fixture_mac",
+    "caller_name": "Agent",
+    "subject": "Need to settle the release boundary",
+    "target_binding": "binding_fixture_2",
+    "text_channel": "wss://switchboard.fixture.invalid/voicestack/v1/calls/call_fixture_incoming/text"
+  },
+  "backend": {
+    "mode": "A",
+    "profile": "voicestack-mode-a-speech/1",
+    "transcription_address": "wss://voice-mac.fixture.invalid/v1/realtime?intent=transcription",
+    "speech_address": "https://voice-mac.fixture.invalid/v1/audio/speech",
+    "credential": "fixture-short-lived-backend-credential",
+    "expires_at": "2026-10-29T12:32:00Z"
+  }
+}

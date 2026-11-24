@@ -1,0 +1,17 @@
+{
+  "name": "voicestack",
+  "private": true,
+  "version": "0.1.0",
+  "type": "module",
+  "engines": {
+    "node": ">=22"
+  },
+  "scripts": {
+    "test": "node --test Tests/*.test.mjs",
+    "dev": "node Development/run.mjs",
+    "adapter": "node Backend/ModeAAdapter/main.mjs"
+  },
+  "dependencies": {
+    "ws": "8.22.0"
+  }
+}

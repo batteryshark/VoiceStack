@@ -1,0 +1,5 @@
+{
+  "type": "device.ready",
+  "event_id": "evt_fixture_ready",
+  "profile": "voicestack-app/1"
+}

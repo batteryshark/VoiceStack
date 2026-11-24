@@ -1,0 +1,15 @@
+.build/
+build/
+node_modules/
+.DS_Store
+.private/
+*.pem
+*.p8
+*.p12
+*.mobileprovision
+*.xcuserstate
+xcuserdata/
+VoiceStack.xcodeproj/project.xcworkspace/
+.swiftpm/
+*.log
+._*

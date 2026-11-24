@@ -1,0 +1,17 @@
+{
+  "public_key": "-----BEGIN PUBLIC KEY-----\nMCowBQYDK2VwAyEAd/HQFO35NRgT711VNV3JeP4+gKhwrGrAepB+jlCeUJ8=\n-----END PUBLIC KEY-----\n",
+  "now_ms": 1793275200000,
+  "credential": "sbb1.eyJ2IjoxLCJhdWQiOiJ2b2ljZXN0YWNrLW1hYy1tb2RlLWEiLCJwcm9maWxlIjoidm9pY2VzdGFjay1tb2RlLWEtc3BlZWNoLzEiLCJjYWxsX2lkIjoiY2FsbF9maXh0dXJlX2NvbnRyYWN0IiwiYmluZGluZyI6ImJpbmRpbmdfZml4dHVyZV9jb250cmFjdCIsImRldmljZV9pZCI6ImRldl9maXh0dXJlX2NvbnRyYWN0IiwiaWF0IjoxNzkzMjc1MjAwLCJleHAiOjE3OTMyNzUyNjAsImp0aSI6ImJjX3M5M2thcHdiZnl6ODkzdnMifQ.rIRZyKIbuOkeYQ7xdR9XWguW3Hg6tWV7utQgA1xUnybCryHOhkrrqbrPgnPr40rQ3XZhTewpndcwqTkPo80IBg",
+  "expires_at": "2026-10-29T12:01:00Z",
+  "claims": {
+    "v": 1,
+    "aud": "voicestack-mac-mode-a",
+    "profile": "voicestack-mode-a-speech/1",
+    "call_id": "call_fixture_contract",
+    "binding": "binding_fixture_contract",
+    "device_id": "dev_fixture_contract",
+    "iat": 1793275200,
+    "exp": 1793275260,
+    "jti": "bc_s93kapwbfyz893vs"
+  }
+}

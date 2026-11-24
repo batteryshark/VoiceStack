@@ -1,0 +1,11 @@
+{
+  "event_id": "evt_error_1",
+  "type": "error",
+  "error": {
+    "type": "invalid_request_error",
+    "code": "unsupported_feature",
+    "message": "server VAD is not supported by voicestack-mode-a-speech/1",
+    "param": "session.audio.input.turn_detection",
+    "event_id": "evt_c_bad"
+  }
+}

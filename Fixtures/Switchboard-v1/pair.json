@@ -1,0 +1,6 @@
+{
+  "device_id": "dev_fixture_iphone",
+  "device_credential": "fixture-device-credential-not-secret",
+  "paired_at": "2026-10-29T12:00:00Z",
+  "profile": "voicestack-app/1"
+}

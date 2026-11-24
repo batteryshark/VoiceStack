@@ -1,0 +1,28 @@
+{
+  "profile": "voicestack-mode-a-speech/1",
+  "transcription": {
+    "transport": "openai-realtime",
+    "input": {
+      "type": "audio/pcm",
+      "rate": 24000
+    }
+  },
+  "speech": {
+    "route": "/v1/audio/speech",
+    "formats": [
+      "pcm",
+      "wav"
+    ],
+    "output": {
+      "type": "audio/pcm",
+      "rate": 24000
+    }
+  },
+  "models": [
+    "local-parakeet",
+    "local-breeze"
+  ],
+  "voices": [
+    "local-default"
+  ]
+}

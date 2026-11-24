@@ -1,0 +1,6 @@
+{
+  "type": "reply.delta",
+  "response_id": "resp_fixture_1",
+  "sequence": 2,
+  "delta": "boundary first."
+}

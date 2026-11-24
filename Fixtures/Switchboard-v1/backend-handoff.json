@@ -1,0 +1,10 @@
+{
+  "backend": {
+    "mode": "A",
+    "profile": "voicestack-mode-a-speech/1",
+    "transcription_address": "wss://voice-mac.fixture.invalid/v1/realtime?intent=transcription",
+    "speech_address": "https://voice-mac.fixture.invalid/v1/audio/speech",
+    "credential": "fixture-short-lived-backend-credential",
+    "expires_at": "2026-10-29T12:32:00Z"
+  }
+}

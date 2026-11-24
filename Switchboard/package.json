@@ -1,0 +1,13 @@
+{
+  "name": "switchboard",
+  "version": "0.1.0",
+  "private": true,
+  "description": "VoiceStack Switchboard: call server and connector CLI (voicestack-app/1, Mode A)",
+  "type": "module",
+  "scripts": {
+    "test": "bun test",
+    "fixtures": "bun scripts/extract-fixtures.ts",
+    "fixtures:check": "bun scripts/extract-fixtures.ts --check",
+    "typecheck": "tsc --noEmit"
+  }
+}

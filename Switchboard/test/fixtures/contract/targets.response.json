@@ -1,0 +1,18 @@
+{
+  "targets": [
+    {
+      "id": "target_main",
+      "label": "Agent",
+      "kind": "main_conversation",
+      "is_default": true,
+      "available": true
+    },
+    {
+      "id": "target_fixture_project",
+      "label": "Example project",
+      "kind": "conversation",
+      "is_default": false,
+      "available": true
+    }
+  ]
+}

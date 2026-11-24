@@ -1,0 +1,22 @@
+{
+  "call": {
+    "id": "call_fixture_outgoing",
+    "direction": "outgoing",
+    "state": "connecting",
+    "target": {
+      "id": "target_main",
+      "label": "Agent"
+    },
+    "target_binding": "binding_fixture_1",
+    "text_channel": "wss://switchboard.fixture.invalid/voicestack/v1/calls/call_fixture_outgoing/text",
+    "started_at": "2026-10-29T12:20:00Z"
+  },
+  "backend": {
+    "mode": "A",
+    "profile": "voicestack-mode-a-speech/1",
+    "transcription_address": "wss://voice-mac.fixture.invalid/v1/realtime?intent=transcription",
+    "speech_address": "https://voice-mac.fixture.invalid/v1/audio/speech",
+    "credential": "fixture-short-lived-backend-credential",
+    "expires_at": "2026-10-29T12:21:00Z"
+  }
+}

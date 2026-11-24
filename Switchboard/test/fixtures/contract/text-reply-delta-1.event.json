@@ -1,0 +1,6 @@
+{
+  "type": "reply.delta",
+  "response_id": "resp_fixture_1",
+  "sequence": 1,
+  "delta": "Use the narrower "
+}
